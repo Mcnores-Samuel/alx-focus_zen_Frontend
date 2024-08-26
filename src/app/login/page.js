@@ -1,7 +1,14 @@
 "use client";
 import { useState } from 'react';
+import { authStatus } from '../middleware/authStatus';
+import { redirect } from 'next/navigation';
 
 export default function LoginPage() {
+  const currentAccessToken = authStatus();
+  if (currentAccessToken) {
+    return redirect('/dashboard');
+  }
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
@@ -39,35 +46,34 @@ export default function LoginPage() {
   };
 
   return (
-    <div>
-      <h1>Login</h1>
-      <form onSubmit={handleLogin}>
-        <label>
-          Email:
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </label>
-        <label>
-          Password:
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </label>
-        <button type="submit">Login</button>
+    <div className='w-full max-w-xs'>
+      <h1 className=''>Login</h1>
+      <form onSubmit={handleLogin} className='bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4'>
+      <div class="mb-6">
+          <label className='block text-gray-700 text-sm font-bold mb-2'>
+            Email:
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+            />
+          </label>
+        </div>
+        <div class="mb-6">
+          <label className='block text-gray-700 text-sm font-bold mb-2'>
+            Password:
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+            />
+          </label>
+        </div>
+        <button type="submit" className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'>Login</button>
       </form>
       {error && <p style={{ color: 'red' }}>{error}</p>}
-      <div className='accessProof'>
-        <h2>Access Proof</h2>
-        <p>Access Token: {localStorage.getItem('accessToken')}</p>
-        <p>Refresh Token: {localStorage.getItem('refreshToken')}</p>
-      </div>
     </div>
   );
 }

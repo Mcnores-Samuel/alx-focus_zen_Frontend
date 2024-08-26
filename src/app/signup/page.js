@@ -1,5 +1,8 @@
 "use client";
 import { useState } from 'react';
+import { authStatus } from '../middleware/authStatus';
+import { redirect } from 'next/navigation';
+import { revalidatePath } from 'next/cache';
 
 export default function SignupPage() {
   const [email, setEmail] = useState('');
@@ -7,6 +10,12 @@ export default function SignupPage() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
 
+  // Refresh the access token
+  const accessToken = authStatus();
+  if (accessToken) {
+    return redirect('/login');
+  }
+  
   const handleSignup = async (e) => {
     e.preventDefault();
 

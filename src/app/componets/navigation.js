@@ -7,10 +7,8 @@ export  function NavLinks() {
     return (
         <nav>
             <Link className={`link ${pathname == '/' ? 'active' : ''}`} href="/">Home</Link>
-            <Link className={`link ${pathname == '/dashboard' ? 'active' : ''}`} href="/dashboard">Dashboard</Link>
             <Link className={`link ${pathname == '/signup' ? 'active' : ''}`} href="/signup">Sign Up</Link>
             <Link className={`link ${pathname == '/login' ? 'active' : ''}`} href="/login">Log In</Link>
-            <Link className={`link" ${pathname == '/tasks' ? 'active' : ''}`} href="/tasks">Tasks</Link>
         </nav>
     )
 }
